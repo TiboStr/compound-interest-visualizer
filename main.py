@@ -8,10 +8,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class Visualizer:
     def __init__(self):
-        plt.xlabel("Years")
-        plt.ylabel("Investment Value")
-        plt.title("Compound Interest Over Time")
-
         self.gui_root = tk.Tk()
         self.gui_root.title("Compound Interest Visualizer")
 
@@ -109,7 +105,7 @@ class SubPlot:
         self.yearly_investment_entry.grid(row=0, column=3)
         self.yearly_investment_entry.insert(0, str(self.yearly_investment))
 
-        ttk.Label(input_frame, text="Annual %:").grid(row=0, column=4)
+        ttk.Label(input_frame, text="Annual yield:").grid(row=0, column=4)
         self.annual_return_entry = ttk.Entry(input_frame)
         self.annual_return_entry.grid(row=0, column=5)
         self.annual_return_entry.insert(0, str(self.annual_return))
