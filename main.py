@@ -6,22 +6,22 @@ import mplcursors
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
-class Visualiser:
+class Visualizer:
     def __init__(self):
         plt.xlabel("Years")
         plt.ylabel("Investment Value")
         plt.title("Compound Interest Over Time")
 
         self.gui_root = tk.Tk()
-        self.gui_root.title("Compound Interest Visualiser")
+        self.gui_root.title("Compound Interest Visualizer")
 
-        self.plots: [SubPlots] = []
+        self.plots: [SubPlot] = []
 
-    def add_sub_plot(self, sub_plot: "SubPlots"):
+    def add_sub_plot(self, sub_plot: "SubPlot"):
         self.plots.append(sub_plot)
         self.redraw()
 
-    def remove_sub_plot(self, sub_plot: "SubPlots"):
+    def remove_sub_plot(self, sub_plot: "SubPlot"):
         self.plots.remove(sub_plot)
         self.redraw()
 
@@ -51,18 +51,18 @@ class Visualiser:
         button_frame = ttk.Frame(self.gui_root)
         button_frame.pack(side='right', padx=10, pady=10)
         button1 = ttk.Button(button_frame, text='Add plot input section', style="Add.TButton",
-                             command=lambda: SubPlots(self).tkinter_input_section())
+                             command=lambda: SubPlot(self).tkinter_input_section())
         button1.pack(side='right')
 
         # Add one standard plot
-        SubPlots(self).tkinter_input_section()
+        SubPlot(self).tkinter_input_section()
 
         self.gui_root.mainloop()
 
 
-class SubPlots:
+class SubPlot:
     def __init__(self,
-                 visualiser: Visualiser,
+                 visualizer: Visualizer,
                  initial_investment: int = 5000,
                  yearly_investment: int = 0,
                  annual_return: float = 0.08,
@@ -73,14 +73,14 @@ class SubPlots:
         assert initial_investment >= 0
         assert yearly_investment >= 0
 
-        self.visualiser = visualiser
+        self.visualizer = visualizer
         self.initial_investment = initial_investment
         self.annual_return = annual_return
         self.yearly_investment = yearly_investment
         self.age_started = age_started
         self.max_age = max_age
 
-        self.visualiser.add_sub_plot(self)
+        self.visualizer.add_sub_plot(self)
 
     def draw_plot(self):
         x_values = [age for age in range(self.age_started, self.max_age)]
@@ -96,7 +96,7 @@ class SubPlots:
                        f"Return: {self.annual_return}, Age started: {self.age_started}")
 
     def tkinter_input_section(self):
-        input_frame = ttk.Frame(self.visualiser.gui_root)
+        input_frame = ttk.Frame(self.visualizer.gui_root)
         input_frame.pack(padx=10, pady=10)
 
         ttk.Label(input_frame, text="Initial:").grid(row=0, column=0)
@@ -128,7 +128,7 @@ class SubPlots:
         style = ttk.Style()
         style.configure("RM.TButton", background="red")
         remove_button = ttk.Button(input_frame, text="rm", style="RM.TButton",
-                                   command=lambda: self.visualiser.remove_sub_plot(self) or input_frame.destroy())
+                                   command=lambda: self.visualizer.remove_sub_plot(self) or input_frame.destroy())
         remove_button.grid(row=0, column=10)
 
         # Update button
@@ -141,9 +141,9 @@ class SubPlots:
         self.annual_return = float(self.annual_return_entry.get())
         self.age_started = int(self.age_started_entry.get())
         self.max_age = int(self.max_age_entry.get())
-        self.visualiser.redraw()
+        self.visualizer.redraw()
 
 
 if __name__ == "__main__":
-    vis = Visualiser()
-    vis.main()
+    viz = Visualizer()
+    viz.main()
