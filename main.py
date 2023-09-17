@@ -79,7 +79,7 @@ class SubPlot:
         self.visualizer.add_sub_plot(self)
 
     def draw_plot(self):
-        x_values = [age for age in range(self.age_started, self.max_age)]
+        x_values = [age for age in range(self.age_started, self.max_age + 1)]
 
         y_values = [
             (self.initial_investment * (1 + self.annual_return) ** (age - self.age_started)) +
